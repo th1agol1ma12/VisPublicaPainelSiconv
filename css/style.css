@@ -1,0 +1,111 @@
+body{
+    background:#EEEEE0;
+    margin:0;
+    padding:0;
+    color:#333333;
+    font-size:12px;
+}
+
+.linkBrasil {
+    color: #0055FF !important;
+}
+
+.linkBrasil:hover {
+    color: #FF9B00 !important;
+}
+
+.linkInicio{
+    padding-right: 7px;
+    padding-top: 7px;
+    color: #333333 !important;
+    text-decoration: underline;
+}
+
+.linkInicio:hover{
+    color: #74A82F !important;
+    text-decoration: none !important;
+}
+
+#header{
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.imageHeader{
+    background-image: url("../images/newHeader.jpg");
+    width: 931px;
+    height: 113px;
+    background-repeat: no-repeat;
+}
+
+.imgHeader{
+    margin-left: 15px;
+    margin-top: 45px;
+}
+
+#container, .container{
+    background:none repeat-y scroll top left #FFF;
+    width:930px;
+    min-height: 797px;
+    margin:0 auto;
+    /*height: 100%;*/
+    font-family: Verdana,Geneva,sans-serif;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+
+#container #main{
+    float:left;
+    margin: 15px 10px 15px 0;
+    width:705px;
+    background:#FFF;
+    position:relative;
+}
+
+
+
+#main .header{
+    width:460px;
+    float:left;
+    height:142px;
+    margin-bottom:20px;
+}
+
+
+#titleChartMap{
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+#infovis.ColumnChartContainer{
+    width: 675px;
+}
+
+.labelTecnica{
+    margin-bottom: 10px;
+    margin-left: 6px;
+    text-align: left;
+}
+
+
+#container.containerVispublica{
+    height: 600px;
+    margin: 0 auto;
+    position: relative;
+    background: transparent;
+    width: 889px;
+    min-height: 200px;
+}
+
+
+
+.titleBoxSimulacao {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: -10px;
+    margin-left: 10px;
+    margin-top: 15px;
+}

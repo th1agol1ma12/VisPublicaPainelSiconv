@@ -1,0 +1,263 @@
+/* 
+    Document   : vispublica_dashboard
+    Created on : 24/01/2013, 09:49:17
+    Author     : GUILHERME
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.containerDashboardVisPublica{
+    background-color: #FFFFFF;
+    border: 1px solid #A9ADBD;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 5px 5px 12px #CCCCCC;
+    padding: 10px;
+    width: 900px;
+    height: 1645px;
+    margin-left: 3px;
+    position: relative;
+}
+
+.mapWrapper{
+    width: 350px;
+    height: 340px;
+    float: left;
+    background: #FFF;
+}
+
+.mapWrapper svg{
+    margin-left: 15px;
+    margin-top: -25px;
+}
+
+.rightColumn{
+    float: left;
+    position: relative;
+}
+
+.containerButtonAddSituacao{
+    position: absolute;
+    right: 8px;
+    top: 15px;
+    z-index: 1;
+    font-size:11px; 
+}
+
+.firstColumnWrapper{
+    background: #FFFFFF;
+    /*border: 1px solid #CCCCCC;*/
+    color: #333333;
+    font-family: "Helvetica Neue",Arial,Sans-serif;
+    font-weight: 180;
+    height: 350px;
+    text-align: justify;
+    width: 534px;
+    margin-left: 15px;
+}
+
+.highChartsColumnWrapper{
+    background: #FFFFFF;
+    /*border: 1px solid #CCCCCC;*/
+    color: #333333;
+    font-family: "Helvetica Neue",Arial,Sans-serif;
+    font-weight: 180;
+    height: 350px;
+    text-align: justify;
+    width: 525px;
+    margin-left: 15px;
+    position: absolute;
+}
+
+.firstColumnWrapper .lengendGroup text{
+    font-size: 14px;
+}
+
+.optionsWrapper {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #7B76AB;
+    border-radius: 10px;
+    float: right;
+    height: 95px;
+    width: 893px;
+    margin-top: 5px;
+    padding: 2px;
+}
+
+
+/***PROVISÓRIO***/
+.lengendGroup{
+    display:none;
+}
+
+.textGroup{
+    display:none;
+}
+
+.columnWrapper{
+    border: 1px solid #CCCCCC;
+    float: left;
+    height: 300px;
+    margin-top: 10px;
+    width: 904px;
+}
+
+.columnWrapper p{
+    color: #4E6D04;
+    font-family: "Lucida Grande","Lucida Sans Unicode",Verdana,Arial,Helvetica,sans-serif;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+.firstColumnWrapper p{
+    color: #4E6D04;
+    font-family: "Lucida Grande","Lucida Sans Unicode",Verdana,Arial,Helvetica,sans-serif;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+.tableWrapper{
+    /*border: 1px solid #CCCCCC;*/
+    float: left;
+    height: 830px;
+    margin-top: 10px;
+    width: 907px;
+}
+
+.googleTableWrapper {
+    /*border: 1px solid #CCCCCC;*/
+    float: left;
+    height: 600px;
+    margin-top: 10px;
+    width: 907px;
+    position: absolute;
+}
+
+
+
+.tableModalWrapper{
+    border: 1px solid #CCCCCC;
+    float: left;
+    height: 115px;
+    margin-top: 10px;
+    width: 450px;
+    padding-bottom: 3px;
+}
+
+div.bar {
+    display: inline-block;
+    width: 20px;
+    height: 75px; /* Gets overriden by D3-assigned height below */
+    margin-right: 2px;
+    background-color: teal;
+} 
+
+
+.ColumnWrapper {
+    font: 40px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.x.axis path {
+    display: none;
+}
+
+
+/*MAPA*/
+.str0 {
+    fill:#A3CFA1;
+    fill-opacity:1;
+    stroke:#333;
+    stroke-opacity:1;
+    stroke-width:300;
+    stroke-miterlimit:4;
+    stroke-dasharray:none;
+}
+
+.str2 {
+    stroke:#1F1A17;stroke-width:281;
+}
+
+.str1 {
+    stroke:#72706F;stroke-width:352;
+}
+
+.str3 {
+    stroke:#1F1A17;stroke-width:704;
+}
+.fil3 {
+    fill:none;
+}/*
+.fil0 {fill:#BFD8FF}
+.fil1 {fill:#F4E2BA}
+.fil2 {fill:#FFF3E3}
+.fil4 {fill:#00FF00}
+.fil5 {fill:#FF9900}
+.fil6 {fill:#Ff0000}
+.fil7 {fill:#00FFFF}
+.fil8 {fill:#FFFF00}*/
+
+.str0:hover{
+    fill:rgb(99,173,95);
+}
+.estadoClicked {
+    fill:rgb(89,143,85);
+}
+
+.wrapperTitle {
+  color: #3E576F;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif;;
+  font-size: 16px;
+}
+
+.tituloSitucao{
+    font-weight: bold;
+}
+
+.tituloForm{
+    font-weight: bold;    
+}
+
+.buttonPesquisarOrgao{
+    font-size: 14px !important;
+    height: 32px;
+}
+
+.parameterValue{
+    color: #6666BB;
+    font-weight: bold;
+}
+
+.dialog-form-sobre{
+    height: 460px;
+    width: 620px;
+    min-height: 0;
+    width: auto;
+}
+
+.creativeCommons {
+    float: left;
+    font-size: 11px;
+    margin-top: 17px;
+    position: absolute;
+    text-align: right;
+    width: 98%;
+}
+
+#dialog-form-sobre p {
+    text-align: justify;
+}
