@@ -1,7 +1,7 @@
-Painel Siconv developed in the context of project 
+Painel SICONV developed in the context of project 
 VisPublica (Public Data Visualization) through a partnership between 
-the COPPE / UFRJ, the UNIFEI (Federal University of Itajub·) and 
-the MinistÈrio do Planejamento OrÁamento e Gest„o.
+the COPPE / UFRJ, the UNIFEI (Federal University of Itajub√°) and 
+the Minist√©rio do Planejamento Or√ßamento e Gest√£o.
 
 This program is free software: you can redistribute it and/or modify 
 it under the terms of the GNU Affero General Public License as 
