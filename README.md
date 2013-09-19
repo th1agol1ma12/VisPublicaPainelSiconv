@@ -1,4 +1,4 @@
-VisPublicaPainelSiconv
+VisPublica Painel SICONV
 ======================
 
 O objetivo do painel é apresentar de forma gráfica e interativa os convênios firmados pelo Poder Executivo Federal da Administração Pública entre os anos de 2007 a 2015.
