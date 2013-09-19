@@ -52,7 +52,7 @@ function initFirstColumn(dataSet, categoriaSet, jsonExe){
             }
         },
         legend: {
-            layout: 'vertical',
+            layout: 'horizontal',
             align: 'center',
             backgroundColor: '#FFFFFF',
             borderWidth: 1
@@ -68,23 +68,26 @@ function initFirstColumn(dataSet, categoriaSet, jsonExe){
                                 return;
                             }
                             
-                            initTable (this.category, null, null);
-                            situacaoGlob = this.category;
-                            document.getElementById('valueSituacao').innerHTML = this.category;
-                            
                             if(typeof(orgaoSelect) != 'undefined'){
                                 orgaoSelect = new Array();
                                 $("#valueOrgao").html("");
                             }
-                                      
                             
-                                       
+                            initTable (this.category, null);
+                            situacaoGlob = this.category;
+                            document.getElementById('valueSituacao').innerHTML = this.category;
+
+                            //passa situacaoGlob para URL e zera os orgaos selecionados da URL:
+                            url.situacaoGlob = buscaidSituacao(situacaoGlob);
+                            url.idOrgao = new Array();
+                            url.convSel = new Array();
+                            document.getElementById('inputUrl').value = montaUrl();
+         
                             //Mensagem de nada selecionado
                             if(typeof(secondChart) != 'undefined'){
                                 secondChart.destroy();
                                 //d3.select(".columnWrapper").append("svg:text").text("LALA");
-                                document.getElementById('columnWrapper').innerHTML = '<p>Selecione um ou mais convênios na tabela acima para visualizar os valores do(s) convênio(s).</p>'+
-                            '<p>Para selecionar mais de um convênio segure o botão Ctrl e clique nos convênios desejados.</p>'
+                                document.getElementById('columnWrapper').innerHTML = '<p>Selecione um convênio para visualização.</p>';
 
                             }
                             
@@ -115,14 +118,12 @@ function initFirstColumn(dataSet, categoriaSet, jsonExe){
         series: [
         { 
             name: 'Número de Convênios por Situação - ' + d3.select(".estadoClicked")[0][0].attributes['id'].nodeValue,
-            color: '#afd655', 
+            color: '#49a47e',
             type: 'column', 
             yAxis: 0, 
             data: dataSet
         }] 
     });
-    
-    
     
     initTable (situacaoGlob, jsonExe, null);
 }
@@ -130,123 +131,143 @@ function initFirstColumn(dataSet, categoriaSet, jsonExe){
 function initSecondColumn (message, convenioSelect) {
     if (message == "nada_selecionado"){
         //Mensagem de nada selecionado
-        secondChart.destroy();
-        document.getElementById('columnWrapper').innerHTML = '<p>Selecione um ou mais convênios na tabela acima para visualizar os valores do(s) convênio(s).</p>'+
-    '<p>Para selecionar mais de um convênio segure o botão Ctrl e clique nos convênios desejados.</p>'
+        if(typeof(secondChart) != 'undefined'){
+            secondChart.destroy();
+        }
+        document.getElementById('columnWrapper').innerHTML = '<p>Selecione um convênio para visualização.</p>';
                     
     }else{
-        var serie = new Array();
-        var colors = Highcharts.getOptions().colors;
-        for(var i = 0; i < convenioSelect.length; i++){
-            //faz a consulta dos convenios pela api do siconv
-            var numConvenio = convenioSelect[i];
-            var linkConvenio = "http://api.convenios.gov.br/siconv/dados/convenio/"+numConvenio+".json";
-            var erro = true;
-            $.getJSON(linkConvenio, function(json) {
-                erro = false;
-                //Segundo Gráfico de Coluna Estatico
-                serie.push({ 
-                    name: 'Convênio '+json.convenios[0].id + '',
-                    color: colors[i], 
-                    type: 'column', 
-                    yAxis: 0, 
-                    data: [
-                    parseFloat(json.convenios[0].valor_global) ,
-                    parseFloat(json.convenios[0].valor_repasse),
-                    parseFloat(json.convenios[0].valor_contra_partida)
-                    ] 
+        /*if(typeof(secondChart) != 'undefined'){
+            secondChart.destroy();
+        }*/
+        
+        document.getElementById('columnWrapper').innerHTML = '';
+        
+        $('#divImgcolumnLoaderWrapper').css('display','table-cell').show();
+            
+        setTimeout(function() {
+            var serie = new Array();
+            var colors = Highcharts.getOptions().colors;
+            for(var i = 0; i < convenioSelect.length; i++){
+                //faz a consulta dos convenios pela api do siconv
+                var numConvenio = convenioSelect[i];
+                var linkConvenio = "http://api.convenios.gov.br/siconv/dados/convenio/"+numConvenio+".json";
+                var erro = '';
+                $.getJSON(linkConvenio, function(json) {
+                    erro = json;
+                    //Segundo Gráfico de Coluna Estatico
+                    if(typeof(json.convenios[0].id) != 'undefined'){
+                        serie.push({ 
+                            name: 'Convênio '+json.convenios[0].id + '',
+                            color: colors[i], 
+                            type: 'column', 
+                            yAxis: 0, 
+                            data: [
+                            parseFloat(typeof(json.convenios[0].valor_global) != 'undefined' ? json.convenios[0].valor_global : 0) ,
+                            parseFloat(typeof(json.convenios[0].valor_repasse) != 'undefined' ? json.convenios[0].valor_repasse : 0),
+                            parseFloat(typeof(json.convenios[0].valor_contra_partida) != 'undefined' ? json.convenios[0].valor_contra_partida : 0)
+                            ] 
+                        });
+                    }
+                }).fail(function () {
+                    erroConexao('erroConexao');
                 });
-
-            }).fail(function () {
-                erroConexao('erroConexao')
-            });
-            if(erro){
-                secondChart.destroy();
-                document.getElementById('columnWrapper').innerHTML = 'Erro de conexão';
-                return;
-            }
-        }  
+                if(erro == ''){
+                    secondChart.destroy();
+                    document.getElementById('columnWrapper').innerHTML = 'Erro de conexão';
+                    return;
+                }
+            }  
 
                 
-        secondChart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'columnWrapper',
-                zoomType: 'xy'
-            },
-            exporting: {
-                enabled: false
-            },
-            title: {
-                text: 'Convênio'
-            },
-            exporting: {
-                enabled: false
-            },
-            xAxis: {
-                title: {
-                    enabled: true,
-                    text: 'Valores'
+            secondChart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'columnWrapper',
+                    zoomType: 'xy'
                 },
-                startOnTick: true,
-                endOnTick: true,
-                showLastLabel: true,
-                categories: ['Valor Global', 'Valor Repasse','Valor ContraPartida']
-            },
-            yAxis: [
-            { // Primary yAxis
-                labels: {
-                    formatter: function() {
-                        return 'R$ ' + this.value;
+                exporting: {
+                    enabled: false
+                },
+                title: {
+                    text: 'Convênio'
+                },
+                exporting: {
+                    enabled: false
+                },
+                xAxis: {
+                    title: {
+                        enabled: true,
+                        text: 'Valores'
                     },
-                    style: {
-                        color: '#4572A7'
+                    startOnTick: true,
+                    endOnTick: true,
+                    showLastLabel: true,
+                    categories: ['Valor Global', 'Valor Repasse','Valor ContraPartida']
+                },
+                yAxis: [
+                { // Primary yAxis
+                    labels: {
+                        formatter: function() {
+                            return 'R$ ' + this.value;
+                        },
+                        style: {
+                            color: '#4572A7'
+                        }
+                    },
+                    title: {
+                        text: 'Cash',
+                        style: {
+                            color: '#4572A7'
+                        }
+                    }
+                }
+                ],
+                tooltip: {
+                    formatter: function() {
+                        return ''+this.x +': R$ '+ this.y;
                     }
                 },
-                title: {
-                    text: 'Cash',
-                    style: {
-                        color: '#4572A7'
-                    }
-                }
-            }
-            ],
-            tooltip: {
-                formatter: function() {
-                    return ''+this.x +': R$ '+ this.y;
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'center',
-                backgroundColor: '#FFFFFF',
-                borderWidth: 1
-            },
-            plotOptions: {
-                scatter: {
-                    marker: {
-                        radius: 5,
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    backgroundColor: '#FFFFFF',
+                    borderWidth: 1
+                },
+                plotOptions: {
+                    scatter: {
+                        marker: {
+                            radius: 5,
+                            states: {
+                                hover: {
+                                    enabled: true,
+                                    lineColor: 'rgb(100,100,100)'
+                                }
+                            }
+                        },
                         states: {
                             hover: {
-                                enabled: true,
-                                lineColor: 'rgb(100,100,100)'
-                            }
-                        }
-                    },
-                    states: {
-                        hover: {
-                            marker: {
-                                enabled: false
+                                marker: {
+                                    enabled: false
+                                }
                             }
                         }
                     }
-                }
-            },
-            series: serie
-        });
+                },
+                series: serie
+            });
+    
+            $('#divImgcolumnLoaderWrapper').hide();
+        }, 10);
     }
 }
 
 function addDataFirstColumn (form){
+      
+    if(document.getElementById('combo1').selectedIndex == 0){
+        $( "#dialog-form-situacao" ).dialog( "close" );
+        return;
+    }
+    
     $('#divImgfirstColumnWrapper').css('display','table-cell').show();
     
     setTimeout(function() {
@@ -259,17 +280,25 @@ function addDataFirstColumn (form){
     
         var formSitucao = document.getElementById('combo1');
     
-        var id_situcao =  formSitucao.options[formSitucao.selectedIndex].value;
-        var nome_situcao =  formSitucao.options[formSitucao.selectedIndex].text;
+        var id_situacao =  formSitucao.options[formSitucao.selectedIndex].value;
+        
+        var nome_situacao =  formSitucao.options[formSitucao.selectedIndex].text;
         formSitucao.options[formSitucao.selectedIndex].style.display='none';
-    
+        if(typeof(formSitucao.options[0].value) != null){
+            formSitucao.options[0].selected='selected';
+        }
+        
+        //Salvando situação na url:
+        url.idSituacao.push(id_situacao);
+        document.getElementById('inputUrl').value = montaUrl();
+         
         var linkEstado = "http://api.convenios.gov.br/siconv/v1/consulta/convenios.json?uf=" + 
         //captura o estado selecionado
         d3.select(".estadoClicked")[0][0].attributes['id'].nodeValue;
     
         $( "#dialog-form-situacao" ).dialog( "close" );
     
-        $.getJSON(linkEstado + "&id_situacao=" +  id_situcao, function(json) {
+        $.getJSON(linkEstado + "&id_situacao=" +  id_situacao, function(json) {
         
             var totalRegistros = 0;
         
@@ -280,9 +309,9 @@ function addDataFirstColumn (form){
             }
         
             dataSet.push(totalRegistros);
-            categorySet.push(nome_situcao);
+            categorySet.push(nome_situacao);
         }).fail(function () {
-            erroConexao('erroConexao')
+            erroConexao('erroConexao');
         });
     
         if(typeof(erroTip) != 'undefined'){
